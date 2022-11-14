@@ -3,7 +3,7 @@ FROM alpine:latest
 ENV SSH_KEY=
 
 RUN apk add --no-cache --update openrc openssh nano && rm -rf /tmp/* /var/cache/apk/*
-RUN apk add --no-cache --update gcompat libstdc++ wget curl bash && rm -rf /tmp/* /var/cache/apk/*
+RUN apk add --no-cache --update gcompat libstdc++ wget curl bash git && rm -rf /tmp/* /var/cache/apk/*
 
 RUN mkdir -p ~/.vscode-server/data/Machine/
 
