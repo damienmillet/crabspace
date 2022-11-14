@@ -1,6 +1,7 @@
 FROM alpine:latest
 
 ENV SSH_KEY=
+ARG EMAIL=
 
 RUN apk add --no-cache --update openrc openssh nano && rm -rf /tmp/* /var/cache/apk/*
 RUN apk add --no-cache --update gcompat libstdc++ wget curl bash git && rm -rf /tmp/* /var/cache/apk/*
@@ -15,8 +16,9 @@ RUN mkdir -p /root/.ssh \
   && touch /run/openrc/softlevel \
   && sed -i 's/#PermitTunnel no/PermitTunnel yes/' /etc/ssh/sshd_config \
   && sed -i 's/AllowTcpForwarding no/AllowTcpForwarding yes/' /etc/ssh/sshd_config
-  
+
 RUN echo '{"git.path": "/usr/bin/git",}' > ~/.vscode-server/data/Machine/settings.json
+RUN ssh-keygen -t rsa  -b 4096 -C ${EMAIL} -f ~/.ssh/id_rsa -q -N ""
 
 RUN rc-status \
   && rc-update add sshd
