@@ -1,7 +1,9 @@
 FROM alpine:latest
 
+ARG SECUREARG = true
+
 ENV SSH_KEY =
-ENV SECURE = true
+ENV SECURE = ${SECUREARG}
 
 RUN apk update && apk upgrade
 ##### OpenRC #####
