@@ -23,7 +23,6 @@ RUN hostname -i
 
 ##### VSCode #####  glib libc6-compat alpine-sdk  util-linux-misc procps
 RUN apk add --no-cache --update bash curl wget nano git gcompat libstdc++ tar python3
-RUN ln -s /usr/bin/python3 /usr/bin/python
 RUN mkdir -p ~/.vscode-server/data/Machine/
 RUN echo '{"git.path": "/usr/bin/git",}' > ~/.vscode-server/data/Machine/settings.json
 
