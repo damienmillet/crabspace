@@ -1,9 +1,9 @@
 FROM alpine:latest
 
-ARG SECUREARG = true
+ARG SECUREARG=true
 
-ENV SSH_KEY =
-ENV SECURE = ${SECUREARG}
+ENV SSH_KEY=
+ENV SECURE=${SECUREARG}
 
 RUN apk update && apk upgrade
 ##### OpenRC #####
@@ -23,7 +23,6 @@ RUN echo $SSH_KEY > ~/.ssh/authorized_keys
 # remove root password
 RUN passwd -d root
 RUN rc-update add sshd default
-RUN rc-service sshd start
 # show ip for connection
 RUN echo "ssh is open at : "
 RUN hostname -i
@@ -40,4 +39,4 @@ EXPOSE 22 5000 3000 8000 80 8080 443
 
 WORKDIR /app
 
-ENTRYPOINT ["/bin/sh"]
+ENTRYPOINT ["rc-service","sshd","restart;/bin/sh"]
