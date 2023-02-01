@@ -28,3 +28,7 @@ docker run -d \
 | -e TZ=Europe/London | Specify a timezone to use EG Europe/London, this is required for Date |
 | -v /app             | Location of your app on disk                                 |
 | Soon                | devcontainer file for auto fetch dependencies                |
+
+## Issues
+
+-[] sshd crash at start
