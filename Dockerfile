@@ -33,4 +33,4 @@ EXPOSE 22 5000 3000 8000 80 8080 443
 
 WORKDIR /app
 
-ENTRYPOINT ["rc-service", "sshd","restart", "&&", "/bin/sh", "sh"]
+ENTRYPOINT ["rc-service", "sshd","restart", "&&", "tail", "-f", "/dev/null"]
