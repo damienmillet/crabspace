@@ -49,4 +49,4 @@ echo "Host <your_hostname>
 
 ## Issues
 
-- [ ] sshd crash at start
+- [ ] sshd crash at start (need to restart it with 'service sshd restart')
