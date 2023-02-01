@@ -12,17 +12,22 @@ docker run -d \
   -e PUID=1000 \
   -e PGID=1000 \
   -e TZ=Europe/Paris \
-  -e SSH_KEY=mykey \
   -v :/app `#optional` \
   --restart unless-stopped \
   lscr.io/damienmillet/crabspace:latest
 ```
-<!--   -e SECURE=true `#optional, passless root account, default is true` \ -->
 
 ### PostInstall
 
 ```bash
-docker exec -it crabspace /bin/bash
+# on your computer
+cat .ssh/urkey.pub
+# on the host
+docker run -dit crabspace /bin/bash
+# on the container
+echo <urkey> >> ~/.ssh/authorized_keys
+hostname -i
+# on your computer
 # add in ur .ssh/config
 echo "Host <your_hostname>
   HostName <your_ip>
@@ -38,11 +43,10 @@ echo "Host <your_hostname>
 | ------------------- | ------------------------------------------------------------ |
 | -e PUID=1000        | for UserID - see below for explanation                       |
 | -e PGID=1000        | for GroupID - see below for explanation                      |
-| -e SSH_KEY=your_key | SSH public key for connection, need full containt of : `cat .ssh/idxxx.pub` |
 | -e TZ=Europe/London | Specify a timezone to use EG Europe/London, this is required for Date |
 | -v /app             | Location of your app on disk                                 |
 | Soon                | devcontainer file for auto fetch dependencies                |
-<!-- | -e SECURE=1         | Enable SSH password authentification                         | -->
+
 ## Issues
 
 - [ ] sshd crash at start

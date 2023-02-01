@@ -1,7 +1,5 @@
 FROM alpine:latest
 
-ENV SSH_KEY=
-
 RUN apk update && apk upgrade
 ##### OpenRC #####
 RUN apk add --no-cache --update openrc && openrc && touch /run/openrc/softlevel && openrc
@@ -13,11 +11,10 @@ RUN sed -i "s/#PermitRootLogin prohibit-password/PermitRootLogin yes/g" /etc/ssh
   && sed -i 's/AllowTcpForwarding no/AllowTcpForwarding yes/' /etc/ssh/sshd_config \
   && sed -i "s/#PermitEmptyPasswords no/PermitEmptyPasswords yes/g" /etc/ssh/sshd_config
 
-RUN mkdir -p /root/.ssh
-RUN echo $SSH_KEY > ~/.ssh/authorized_keys
 # remove root password
 # RUN passwd -d root
 RUN rc-update add sshd default
+RUN rc-service sshd start
 # show ip for connection
 RUN echo "ssh is open at : "
 RUN hostname -i
