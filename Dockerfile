@@ -1,9 +1,9 @@
 FROM alpine:latest
 
-ARG SECUREARG=true
+# ARG SECUREARG=true
 
 ENV SSH_KEY=
-ENV SECURE=${SECUREARG}
+# ENV SECURE=${SECUREARG}
 
 RUN apk update && apk upgrade
 ##### OpenRC #####
@@ -15,8 +15,8 @@ RUN sed -i "s/#PermitRootLogin prohibit-password/PermitRootLogin yes/g" /etc/ssh
   && sed -i 's/#PermitTunnel no/PermitTunnel yes/' /etc/ssh/sshd_config \
   && sed -i 's/AllowTcpForwarding no/AllowTcpForwarding yes/' /etc/ssh/sshd_config
 # check if SECURE is true
-RUN if [ "$SECURE" = "true" ]; then \
-  && sed -i "s/#PermitEmptyPasswords no/PermitEmptyPasswords yes/g" /etc/ssh/sshd_config:
+# RUN if [ "${SECURE}" = "true" ]; then \
+#   && sed -i "s/#PermitEmptyPasswords no/PermitEmptyPasswords yes/g" /etc/ssh/sshd_config:
 
 RUN mkdir -p /root/.ssh
 RUN echo $SSH_KEY > ~/.ssh/authorized_keys
