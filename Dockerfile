@@ -1,28 +1,36 @@
 FROM alpine:latest
 
 ENV SSH_KEY=
-ARG EMAIL=
 
-RUN apk add --no-cache --update openrc openssh nano && rm -rf /tmp/* /var/cache/apk/*
-RUN apk add --no-cache --update gcompat libstdc++ wget curl bash git && rm -rf /tmp/* /var/cache/apk/*
-
-RUN mkdir -p /root/.ssh \
-  && chmod 700 /root/.ssh \
-  && echo $SSH_KEY > ~/.ssh/authorized_keys \
-  && ssh-keygen -A \
-  && openrc && touch /run/openrc/softlevel && openrc \
+RUN apk update && apk upgrade
+##### OpenRC #####
+RUN apk add --no-cache --update openrc && openrc && touch /run/openrc/softlevel && openrc
+##### SSH #####
+RUN apk add --no-cache --update openssh 
+# modifier le fichier /etc/ssh/sshd_config pour activer l'auth par root
+RUN sed -i "s/#PermitRootLogin prohibit-password/PermitRootLogin yes/g" /etc/ssh/sshd_config \
+  && sed -i "s/#PermitEmptyPasswords no/PermitEmptyPasswords yes/g" /etc/ssh/sshd_config \
   && sed -i 's/#PermitTunnel no/PermitTunnel yes/' /etc/ssh/sshd_config \
-  && sed -i 's/AllowTcpForwarding no/AllowTcpForwarding yes/' /etc/ssh/sshd_config \ 
-  && rc-update add sshd
+  && sed -i 's/AllowTcpForwarding no/AllowTcpForwarding yes/' /etc/ssh/sshd_config
+RUN echo $SSH_KEY > ~/.ssh/authorized_keys
+# remove root password
+RUN passwd -d root
+RUN rc-update add sshd default
+# show ip for connection
+RUN echo "ssh is open at : "
+RUN hostname -i
 
-RUN mkdir -p ~/.vscode-server/data/Machine/ \
-  && echo '{"git.path": "/usr/bin/git",}' > ~/.vscode-server/data/Machine/settings.json \
-  && ssh-keygen -t rsa  -b 4096 -C ${EMAIL} -f ~/.ssh/id_rsa -q -N ""
+##### VSCode ##### python2 ?
+RUN apk add --no-cache --update bash curl wget nano git gcompat libstdc++ tar python3 //  glib libc6-compat alpine-sdk  util-linux-misc procps
+RUN ln -s /usr/bin/python3 /usr/bin/python
+RUN mkdir -p ~/.vscode-server/data/Machine/
+RUN echo '{"git.path": "/usr/bin/git",}' > ~/.vscode-server/data/Machine/settings.json
 
-COPY /data/* /
+##### Clean #####libgcc
+RUN rm -rf /tmp/* /var/cache/apk/*
 
 EXPOSE 22 5000 3000 8000 80 8080 443
 
 WORKDIR /app
 
-ENTRYPOINT ["sh", "/bin/sh"]
+ENTRYPOINT ["rc-service", "sshd","restart", "&&", "/bin/sh", "sh"]
