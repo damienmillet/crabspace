@@ -1,9 +1,6 @@
 FROM alpine:latest
 
-# ARG SECUREARG=true
-
 ENV SSH_KEY=
-# ENV SECURE=${SECUREARG}
 
 RUN apk update && apk upgrade
 ##### OpenRC #####
@@ -13,15 +10,13 @@ RUN apk add --no-cache --update openssh
 # modifier le fichier /etc/ssh/sshd_config pour activer l'auth par root
 RUN sed -i "s/#PermitRootLogin prohibit-password/PermitRootLogin yes/g" /etc/ssh/sshd_config \
   && sed -i 's/#PermitTunnel no/PermitTunnel yes/' /etc/ssh/sshd_config \
-  && sed -i 's/AllowTcpForwarding no/AllowTcpForwarding yes/' /etc/ssh/sshd_config
-# check if SECURE is true
-# RUN if [ "${SECURE}" = "true" ]; then \
-#   && sed -i "s/#PermitEmptyPasswords no/PermitEmptyPasswords yes/g" /etc/ssh/sshd_config:
+  && sed -i 's/AllowTcpForwarding no/AllowTcpForwarding yes/' /etc/ssh/sshd_config \
+  && sed -i "s/#PermitEmptyPasswords no/PermitEmptyPasswords yes/g" /etc/ssh/sshd_config
 
 RUN mkdir -p /root/.ssh
 RUN echo $SSH_KEY > ~/.ssh/authorized_keys
 # remove root password
-RUN passwd -d root
+# RUN passwd -d root
 RUN rc-update add sshd default
 # show ip for connection
 RUN echo "ssh is open at : "
