@@ -25,4 +25,6 @@ WORKDIR /app
 
 COPY data/start.sh /
 
+RUN chmod +x /start.sh
+
 ENTRYPOINT ["/start.sh"]
