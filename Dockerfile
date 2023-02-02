@@ -3,9 +3,9 @@ FROM alpine:latest
 RUN apk update && apk upgrade
 ##### SSH #####
 RUN apk add --no-cache --update openssh
-RUN /etc/init.d/sshd start
+RUN /usr/sbin/sshd start
 RUN mkdir /root/.ssh
-# modifier le fichier /etc/ssh/sshd_config pour activer l'auth par root
+
 RUN sed -i 's/#PermitTunnel no/PermitTunnel yes/' /etc/ssh/sshd_config \
   && sed -i 's/AllowTcpForwarding no/AllowTcpForwarding yes/' /etc/ssh/sshd_config
 
