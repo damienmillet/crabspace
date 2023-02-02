@@ -20,4 +20,4 @@ EXPOSE 22 5000 3000 8000 80 8080 443
 
 WORKDIR /app
 
-CMD ["/usr/sbin/sshd -D -e $@"]
+ENTRYPOINT ["/usr/sbin/sshd -D -e $@"]
