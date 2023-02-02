@@ -46,7 +46,3 @@ echo "Host <your_hostname>
 | -e TZ=Europe/London | Specify a timezone to use EG Europe/London, this is required for Date |
 | -v /app             | Location of your app on disk                                 |
 | Soon                | devcontainer file for auto fetch dependencies                |
-
-## Issues
-
-- [ ] sshd crash at start (need to restart it with 'service sshd restart')
