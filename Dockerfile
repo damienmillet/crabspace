@@ -19,8 +19,10 @@ RUN rm -rf /tmp/* /var/cache/apk/*
 
 EXPOSE 22 5000 3000 8000 80 8080 443
 
-VOLUME ['/root/.ssh/authorized_keys']
+VOLUME ["/root/.ssh/authorized_keys"]
 
 WORKDIR /app
 
-ENTRYPOINT ["/usr/sbin/sshd"]
+COPY 'data/start.sh' '/'
+
+ENTRYPOINT ["start.sh"]
