@@ -3,7 +3,6 @@ FROM alpine:latest
 RUN apk update && apk upgrade
 ##### SSH #####
 RUN apk add --no-cache --update openssh
-RUN /usr/sbin/sshd start
 RUN mkdir /root/.ssh
 
 RUN sed -i 's/#PermitTunnel no/PermitTunnel yes/' /etc/ssh/sshd_config \
