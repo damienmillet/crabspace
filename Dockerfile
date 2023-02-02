@@ -4,6 +4,7 @@ RUN apk update && apk upgrade
 ##### SSH #####
 RUN apk add --no-cache --update openssh
 RUN mkdir /root/.ssh
+RUN ssh-keygen -A
 
 RUN sed -i 's/#PermitTunnel no/PermitTunnel yes/' /etc/ssh/sshd_config \
   && sed -i 's/AllowTcpForwarding no/AllowTcpForwarding yes/' /etc/ssh/sshd_config
@@ -22,4 +23,4 @@ VOLUME ['/root/.ssh/authorized_keys']
 
 WORKDIR /app
 
-ENTRYPOINT ["/usr/sbin/sshd","-D"]
+ENTRYPOINT ["/usr/sbin/sshd","-D","-e","$@"]
