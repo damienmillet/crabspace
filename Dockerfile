@@ -23,4 +23,4 @@ VOLUME ['/root/.ssh/authorized_keys']
 
 WORKDIR /app
 
-ENTRYPOINT ["/usr/sbin/sshd","-D","-e","$@"]
+ENTRYPOINT ["/usr/sbin/sshd"]
