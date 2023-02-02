@@ -23,6 +23,6 @@ VOLUME ["/root/.ssh/authorized_keys"]
 
 WORKDIR /app
 
-COPY 'data/start.sh' '/'
+COPY data/start.sh /
 
-ENTRYPOINT ["start.sh"]
+ENTRYPOINT ["/start.sh"]
