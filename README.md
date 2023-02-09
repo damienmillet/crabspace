@@ -2,6 +2,9 @@
 
 Based on alpine with 36Mb 😁
 
+> ⚠️ - I choose to not parse devcontainer, that can be easly did.
+> explain at end.
+
 ## Usage
 
 Here are some example snippets to help you get started creating a container.
@@ -45,4 +48,29 @@ echo "Host <your_hostname>
 | -e PGID=1000        | for GroupID - see below for explanation                      |
 | -e TZ=Europe/London | Specify a timezone to use EG Europe/London, this is required for Date |
 | -v /app             | Location of your app on disk                                 |
-| Soon                | devcontainer file for auto fetch dependencies                |
+
+
+To use ~codespace free : 
+- install docker  
+- [vscode docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) 
+- [dev containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+
+That's all !
+
+Now u can create devcontainer easly !
+
+For docker wremote host : 
+
+```shell
+docker create context $NAME  --docker "host=ssh://$HOST"
+docker use remote $NAME
+```
+
+issues : 
+docker: command not found => create symbolic link on the server to add docker to /bin
+
+
+
+
+
+
